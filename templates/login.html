@@ -1,0 +1,22 @@
+<div class="col-md-4 col-md-offset-4 well form-login">
+	<div class="row">
+		<form class="form-horizontal" style="text-align:center" ng-submit="login()">
+			<h2 >Login</h2>
+			<div class="form-group">
+                <label class="control-label col-md-4" for="inputDefault">Ingresa tu usuario</label>
+                <div class="col-md-8">
+                	<input type="text" class="form-control" ng-model="loginuser.email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4" for="inputDefault">Ingresa tu contraseña</label>
+                <div class="col-md-8">
+                	<input type="text" class="form-control" ng-model="loginuser.password">
+                </div>
+            </div>
+	        <button class="btn btn-info">Ingresar</button>
+	        <!-- <a class="btn btn-info" href="#/registro"><button class="btn btn-info">Registrarme</button></a> -->
+	        <a class="btn btn-info" href="#/registro">Registrarme</a>
+		</form>
+	</div>
+</div>

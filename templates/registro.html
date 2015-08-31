@@ -1,0 +1,77 @@
+<div class="col-md-6 col-md-offset-3 well form-register">
+	<center><h2>Registro</h2></center>
+	<br>
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="inputnombre" class="col-md-4 control-label">Nombre completo</label>
+			<div class="col-md-8">
+				<input ng-model="registrouser.nombre" type="text" placeholder="Nombre Completo" id="inputnombre" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputemail" class="col-md-4 control-label">Email</label>
+			<div class="col-md-8">
+				<input ng-model="registrouser.email" type="text" placeholder="Email" id="inputemail" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputpass" class="col-md-4 control-label">Contraseña</label>
+			<div class="col-md-8">
+				<input ng-model="registrouser.password" type="password" placeholder="Contraseña" id="inputpass" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputpassrepeat" class="col-md-4 control-label">Repite Contraseña</label>
+			<div class="col-md-8">
+				<input ng-model="registrouser.rpassword" type="password" placeholder="Repetir Contraseña" id="inputpassrepeat" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="togglebutton col-md-offset-3">
+	            <label>
+	                <input type="checkbox" ng-model="registrouser.isEstudiante"><span class="toggle"></span> Rol Estudiante
+	            </label>
+	        </div>
+		</div>
+		<div class="col-md-8 col-md-offset-2 shadow-z-1" ng-show="!registrouser.isEstudiante">
+			<h3>Nuevo Curso</h3>
+			<div class="form-group">
+				<label for="inputpassrepeat" class="col-md-4 control-label">Nombre Curso</label>
+				<div class="col-md-8">
+					<input ng-model="registrouser.curso.nombre" type="text" placeholder="Nombre del Curso" readonly="true" id="inputpassrepeat" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputpassrepeat" class="col-md-4 control-label">Código Curso</label>
+				<div class="col-md-8">
+					<input ng-model="registrouser.curso.codigo" type="text" placeholder="Código" readonly="true" id="inputpassrepeat" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputpassrepeat" class="col-md-4 control-label">Contraseña Curso *</label>
+				<div class="col-md-8">
+					<input ng-model="registrouser.curso.password" type="password" placeholder="Contraseña Curso" id="inputpassrepeat" class="form-control">
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8 col-md-offset-2 shadow-z-1" ng-show="registrouser.isEstudiante">
+			<h3>Registrarme en un Curso</h3>
+			<div class="form-group">
+				<label for="inputpassrepeat" class="col-md-4 control-label">Código Curso</label>
+				<div class="col-md-8">
+					<input ng-model="registrouser.curso.estudiante.codigo" type="text" placeholder="Código" readonly="true" id="inputpassrepeat" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputpassrepeat" class="col-md-4 control-label">Contraseña Curso *</label>
+				<div class="col-md-8">
+					<input ng-model="registrouser.curso.estudiante.password" type="password" placeholder="Contraseña Curso" id="inputpassrepeat" class="form-control">
+				</div>
+			</div>
+		</div>
+		<button type="button" ng-click="registro()" class="btn btn-primary btn-submit" >
+			<span>Registrarme!</span>
+			<i class="mdi-navigation-arrow-forward"></i>
+		</button>
+	</form>
+</div>

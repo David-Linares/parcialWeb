@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="parcialweb">
 <head>
-	<title></title>
+	<title>--Parcial Web--</title>
+	<meta charset="utf-8">
+	 <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
+    <link href="css/roboto.min.css" rel="stylesheet">
+    <link href="css/material-fullpalette.min.css" rel="stylesheet">
+    <link href="css/ripples.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-
+	<div ng-include="'templates/navbar.html'"></div>
+	<div ng-view></div>
 </body>
 <!--Libraries-->
 <script type="text/javascript" src="js/lib/angular.min.js"></script>
@@ -15,11 +22,20 @@
 <script type="text/javascript" src="js/lib/firebase.js"></script>
 <script type="text/javascript" src="js/lib/angularfire.min.js"></script>
 <script type="text/javascript" src="js/lib/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/ripples.min.js"></script>
+<script type="text/javascript" src="js/lib/material.min.js"></script>
+<script type="text/javascript" src="http://l2.io/ip.js?var=myip"></script>
 
 <!--Own Scripts-->
 <script type="text/javascript" src="js/app/app.js"></script>
 <script type="text/javascript" src="js/app/controllers/controllers.js"></script>
 <script type="text/javascript" src="js/app/services/services.js"></script>
 <script type="text/javascript" src="js/app/directives/directives.js"></script>
-
+<script>
+    $(document).ready(function() {
+        // This command is used to initialize some elements and make them work properly
+        $.material.init();
+    });
+</script>
 </html>

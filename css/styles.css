@@ -1,0 +1,12 @@
+.form-login{
+	margin-top: 10%;
+}
+.form-register{
+	margin-top: 6%;
+}
+.btn-submit{
+	float: right;
+}
+.btn-submit > i, .btn-submit > span {
+	vertical-align: middle;
+}
