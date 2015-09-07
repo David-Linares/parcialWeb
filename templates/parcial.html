@@ -1,0 +1,19 @@
+<div class="col-md-4 col-md-offset-4 well">
+	<form ng-submit="guardarParcial()">
+		<h1>Parcial #2</h1>
+
+		<div class="question_container" ng-repeat="pregunta in test_preguntas" ng-init="preguntaIndex = $index">
+			<div class="question_title col-md-12">
+				<b>{{$index + 1}}.</b> {{pregunta.pregunta}}
+			</div>
+			<div class="question_body col-md-12">
+				<label class="label_check" ng-repeat="rpta in pregunta.opciones track by $index">
+	                <input type="radio" ng-model="pregunta.respuesta_user" ng-value="rpta.respuesta">
+	                <span class="circle"></span>
+	                <span class="check"></span>
+	                {{rpta.respuesta}}
+			</div>
+		</div>
+		<input type="submit" value="Enviar Respuestas" class="btn btn-success">
+	</form>
+</div>

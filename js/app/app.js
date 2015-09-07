@@ -5,6 +5,7 @@ var app = angular
                 .config(function($routeProvider){
                     $routeProvider
                     .when('/', {templateUrl: 'templates/login.html', controller: 'loginController'})
+                    .when('/user/principal', {templateUrl: 'templates/parcial.html', controller: 'parcialController'})
                     .when('/registro', {templateUrl: 'templates/registro.html', controller: 'registroController'})
                     .when('/superadmin', {templateUrl: 'templates/superadmin.html', controller: 'superAdminController'})
                         .otherwise({redirectTo: '/'});

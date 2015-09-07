@@ -10,3 +10,18 @@
 .btn-submit > i, .btn-submit > span {
 	vertical-align: middle;
 }
+
+/*Estilos formulario de parcial*/
+
+
+.question_container{
+
+}
+.question_container > .question_title{
+	padding: 10px 35px;
+	font-size: 16px;
+}
+.question_container > .question_body > .label_check{
+	width: 100%;
+	font-size: 15px;
+}

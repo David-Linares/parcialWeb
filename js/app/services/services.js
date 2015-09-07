@@ -28,10 +28,12 @@ app.factory('loginService', function(firebaseUrl, $firebaseAuth, $firebase, $loc
 			var profile = {
 				name: user.nombre,
 				email: user.email,
-				gravatar: get_gravatar(user.email, 40)
+				gravatar: get_gravatar(user.email, 40),
+				perfil: (user.isEstudiante ? 'estudiante' : 'administrador') 
 			};
 			var myid = dataUser.uid;
 			var newprofile = ref.child('profiles').child(myid);
+			var registercourse = ref.child('cursos').child(user.estudiante.codigo)
 			return newprofile.set(profile);
 		},
 		login: function(user){
@@ -71,6 +73,18 @@ app.factory('loginService', function(firebaseUrl, $firebaseAuth, $firebase, $loc
 
 app.factory('adminService', function(firebaseUrl, $firebase, $location, $firebaseArray){
 
+})
+
+app.factory('parcialService', function(firebaseUrl, $firebase, $location, $firebaseArray){
+	var ref = new Firebase(firebaseUrl+'/evaluaciones');
+	var parcialFunctions = {
+
+		guardarParcial:function(parcial){
+			ref.child('parcialPrueba').child('userYo').set(angular.fromJson(angular.toJson(parcial)))
+		}
+	}
+
+	return parcialFunctions;
 })
 
 app.factory('cursoService', function(firebaseUrl, $firebase, $location, $firebaseArray){

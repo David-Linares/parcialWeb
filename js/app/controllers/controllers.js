@@ -8,6 +8,24 @@ function random_code(len){
 	return code;
 }
 
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 app.controller('headerController', ['$scope','firebaseUrl','loginService', '$location', function($scope, firebaseUrl,loginService, $location){
 	$scope.logueado = loginService.logueado;
@@ -34,29 +52,91 @@ app.controller('loginController', ['$scope','firebaseUrl','loginService', '$loca
 
 app.controller('registroController', ['$scope','firebaseUrl','loginService', '$location', 'logsService', 'cursoService', function($scope, firebaseUrl,loginService, $location, logsService, cursoService){
 	$scope.registrouser = {
-		'nombre': '',
-		'email': '',
-		'password': '',
-		'rpassword': '',
-		'isEstudiante': false,
-		'email': '',
-		'email': '',
+		'user':{
+			'nombre': '',
+			'email': '',
+			'password': '',
+			'rpassword': '',
+			'isEstudiante': false,
+		},
 		'curso': {
 			'nombre': '',
 			'codigo':random_code(8),
-			'password':'',
-			'estudiante': {
-				'codigo': '',
-				'password': ''
-			}
+			'password':''
+		},
+		'estudiante': {
+			'codigo': '',
+			'password': ''
 		}
 	}
 
 	$scope.registro = function(){
-
+		loginService.registrar($scope.registrouser)
 	}
 }])
 
 app.controller('superAdminController', ['$scope', function($scope){
 	console.log("Hola Super Admin!!");
 }])
+
+app.controller('parcialController', ['$scope', 'parcialService', function($scope, parcialService){
+	$scope.test_preguntas = [
+		{
+			"pregunta": "Que es un computador",
+			"respuesta_user": "preg1",
+			"opciones":  [
+							{ "respuesta":"Opc 1","check":false},
+							{ "respuesta":"Opc 2","check":false},
+							{ "respuesta":"Opc 3","check":false},
+							{ "respuesta":"Opc 4","check":false},
+						]
+		},
+		{
+			"pregunta": "Partes de un computador",
+			"respuesta_user": "preg2",
+			"opciones":  [
+							{ "respuesta":"Opc 1","check":false},
+							{ "respuesta":"Opc 2","check":false},
+							{ "respuesta":"Opc 3","check":false},
+							{ "respuesta":"Opc 4","check":false},
+						]
+		},
+		{
+			"pregunta": "Que es Software",
+			"respuesta_user": "preg3",
+			"opciones":  [
+							{ "respuesta":"Opc 1","check":false},
+							{ "respuesta":"Opc 2","check":false},
+							{ "respuesta":"Opc 3","check":false},
+							{ "respuesta":"Opc 4","check":false},
+						]
+		},
+		{
+			"pregunta": "Que es Hardware",
+			"respuesta_user": "preg4",
+			"opciones":  [
+							{ "respuesta":"Opc 1","check":false},
+							{ "respuesta":"Opc 2","check":false},
+							{ "respuesta":"Opc 3","check":false},
+							{ "respuesta":"Opc 4","check":false},
+						]
+		},
+		{
+			"pregunta": "Que es Internet",
+			"respuesta_user": "preg5",
+			"opciones":  [
+							{ "respuesta":"Opc 1","check":false},
+							{ "respuesta":"Opc 2","check":false},
+							{ "respuesta":"Opc 3","check":false},
+							{ "respuesta":"Opc 4","check":false},
+						]
+		},
+	]
+
+	$scope.test_preguntas = shuffle($scope.test_preguntas);
+	console.log($scope.test_preguntas)
+	$scope.guardarParcial = function(){
+		parcialService.guardarParcial($scope.test_preguntas);
+	}
+}])
+
