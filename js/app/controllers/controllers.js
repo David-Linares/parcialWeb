@@ -71,7 +71,10 @@ app.controller('registroController', ['$scope','firebaseUrl','loginService', '$l
 	}
 
 	$scope.registro = function(){
-		loginService.registrar($scope.registrouser)
+		loginService.registrar($scope.registrouser).then(function(dataLogin){
+			console.log("Datos del Login")
+			console.log(dataLogin)
+		})
 	}
 }])
 

@@ -26,27 +26,38 @@ app.factory('loginService', function(firebaseUrl, $firebaseAuth, $firebase, $loc
 		user: {},
 		createProfile:function(dataUser, user){
 			var profile = {
-				name: user.nombre,
-				email: user.email,
-				gravatar: get_gravatar(user.email, 40),
-				perfil: (user.isEstudiante ? 'estudiante' : 'administrador') 
+				name: user.user.nombre,
+				email: user.user.email,
+				gravatar: get_gravatar(user.user.email, 40),
+				perfil: (user.user.isEstudiante ? 'estudiante' : 'administrador') 
 			};
+			console.log(user)
 			var myid = dataUser.uid;
 			var newprofile = ref.child('profiles').child(myid);
-			var registercourse = ref.child('cursos').child(user.estudiante.codigo)
+			if (user.user.isEstudiante) {
+				var registercourse = ref.child('cursos').child(user.estudiante.codigo).child('estudiantes')
+				registercourse.push(myid)
+			}else{
+				var createcourse = ref.child('cursos').child(user.curso.codigo)
+				user.curso.administrador = myid
+				createcourse.set(user.curso);
+			}
 			return newprofile.set(profile);
 		},
 		login: function(user){
 			return auth.$authWithPassword(
-				{email: user.email, password: user.password}
+				{email: user.user.email, password: user.user.password}
 			);
 		},
 		registrar:function(user){
-			return auth.$createUser({email: user.email, password: user.password})
+			return auth.$createUser({email: user.user.email, password: user.user.password})
 			.then(function(data){
 				console.log(data);
 				Auth.login(user)
 				Auth.createProfile(data, user);
+			},function(error){
+				console.log("error")
+				console.log(error)
 			})
 		},
 		cerrarSesion: function(){
