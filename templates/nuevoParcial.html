@@ -1,0 +1,81 @@
+<div class="col-md-12">
+	<div class="col-md-6 col-md-offset-3">
+		<h1 style="text-align: center">Nuevo Parcial</h1>
+	</div>
+	<div class="col-md-2 col-md-offset-3">
+		<h2>Preguntas</h2>
+	</div>
+	<div class="col-md-3">
+		<a ng-click="agregarPregunta()" class="btn btn-success btn-fab btn-raised mdi-content-add"></a>
+	</div>
+	<div class="col-md-8 col-md-offset-2 well" ng-repeat="pregnuevo in pregNuevoParcial track by $index">
+		<div class="form-horizontal">
+			<h3>Pregunta {{$index + 1}}</h3>
+			
+			<div class="form-group">
+	            <label for="inputEmail" class="col-lg-2 control-label">Pregunta:</label>
+	            <div class="col-lg-10">
+	                <input type="text" class="form-control" ng-model="pregnuevo.pregunta" id="pregunta{{$index}}" placeholder="Redacte la Pregunta">
+	            </div>
+	        </div>
+	        <div class="form-group">
+	            <label for="inputEmail" class="col-lg-2 control-label">Tipo de Respuesta:</label>
+	            <div class="col-lg-10">
+	            	<select ng-options="tipor.directiva as tipor.tiponombre for tipor in tipoRespuestas track by tipor.id" ng-model="pregnuevo.tiporpta"></select>
+	            </div>
+	        </div>
+	        <div class="form-group" ng-switch="pregnuevo.tiporpta">
+	            <div ng-switch-when="pregMultipleUnicaRpta">
+	            	<div class="col-md-2">
+		            	<label class="col-md-12 control-label">Opciones:<i class="mdi-content-add-circle-outline" ng-click="agregarOpcion(pregnuevo)"></i></label>
+	            	</div>
+	            	<div class="col-md-10">
+		            	<div class="col-md-12" ng-repeat="opcrptamult in pregnuevo.rptasmultiples">
+		            		<input type="radio" ng-model="pregnuevo.respuesta_correcta" ng-value="opcrptamult.texto">
+		                	<input type="text" class="form-control" ng-model="opcrptamult.texto" id="pregunta{{$index}}" placeholder="">
+			            </div>
+		            </div>
+	            </div>
+	            <div ng-switch-when="preguntaEmparejar">
+	            	<div class="col-md-6">
+			            <div class="panel panel-success">
+						    <div class="panel-heading">
+						        <h3 class="panel-title">Opciones Estáticas:<i class="mdi-content-add-circle-outline" ng-click="agregarListadoOpciones(pregnuevo)"></i></h3>
+						    </div>
+						    <div class="panel-body">
+						        <div class="col-md-12" ng-repeat="opcestatica in pregnuevo.listadoOpciones">
+				                	<input type="text" class="form-control" ng-model="opcestatica.texto" id="pregunta{{$index}}" placeholder="Opción Estática">
+					            </div>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-6">
+			            <div class="panel panel-success">
+						    <div class="panel-heading">
+						        <h3 class="panel-title">Opciones Estáticas:<i class="mdi-content-add-circle-outline" ng-click="agregarListadoOpciones(pregnuevo)"></i></h3>
+						    </div>
+						    <div class="panel-body">
+						        <div class="col-md-12" ng-repeat="opcestatica in pregnuevo.listadoOpciones">
+				                	<input type="text" class="form-control" ng-model="opcestatica.texto" id="pregunta{{$index}}" placeholder="Opción Estática">
+					            </div>
+						    </div>
+						</div>
+					</div>
+		            <div class="col-md-2">
+	            		<label class="col-md-12 control-label">Opciones Listado:<i class="mdi-content-add-circle-outline" ng-click="agregarOpcionesDinamicas(pregnuevo)"></i></label>
+		            </div>
+	            	<div class="col-md-10">
+		            	<div class="col-md-12" ng-repeat="opcdinamica in pregnuevo.listadoOpcionesdinamicas">
+		                	<input type="text" class="form-control" ng-model="opcdinamica.texto" id="pregunta{{$index}}" placeholder="Opción Dinámica">
+			            </div>
+		            </div>
+	            </div>
+	            <div ng-switch-when="pregArrastre">
+	            	
+	            </div>
+	        </div>
+		</div>
+		<hr>
+	</div>
+
+</div>

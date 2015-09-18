@@ -27,25 +27,18 @@ function shuffle(array) {
   return array;
 }
 
-app.controller('headerController', ['$scope','firebaseUrl','loginService', '$location', function($scope, firebaseUrl,loginService, $location){
-	$scope.logueado = loginService.logueado;
-
-	console.log($scope.logueado());
-
-	$scope.logout = function(){
-		loginService.cerrarSesion();
-	}
-}])
-
-app.controller('loginController', ['$scope','firebaseUrl','loginService', '$location', 'logsService','$cookies', function($scope, firebaseUrl,loginService, $location, logsService, $cookies){
+app.controller('loginController', function($scope, firebaseUrl,loginService, $location, logsService, SessionService){
 	$scope.loginuser = {'email':'', 'password': ''};
+	var perfilTemp = {}
 	$scope.login = function(){
 		loginService.login($scope.loginuser).then(function(data){
 			console.log(data)
 			var perfilUser = loginService.getProfile(data.uid);
 			perfilUser.$loaded(function(){
-				console.log(perfilUser);
-				$cookies.put('datasesion', JSON.stringify(data));
+				$.extend(perfilTemp, perfilUser);
+				delete perfilTemp['$$conf'];
+				SessionService.setCookieObject('datasesion', data);
+				SessionService.setCookieObject('profileuser', perfilTemp);
 				if (perfilUser.perfil == "estudiante") {
 					$location.path('user');
 				}else{
@@ -57,9 +50,9 @@ app.controller('loginController', ['$scope','firebaseUrl','loginService', '$loca
 			console.log(error);
 		})
 	}
-}])
+})
 
-app.controller('registroController', ['$scope','firebaseUrl','loginService', '$location', 'logsService', 'cursoService', '$cookies', function($scope, firebaseUrl,loginService, $location, logsService, cursoService, $cookies){
+app.controller('registroController', function($scope, firebaseUrl,loginService, $location, logsService, cursoService, $cookies){
 	$scope.registrouser = {
 		'user':{
 			'nombre': '',
@@ -94,23 +87,13 @@ app.controller('registroController', ['$scope','firebaseUrl','loginService', '$l
 			})
 		})
 	}
-}])
+})
 
-app.controller('superAdminController', ['$scope', function($scope){
+app.controller('superAdminController', function($scope){
 	console.log("Hola Super Admin!!");
-}])
+})
 
-app.controller('adminController', ['$scope', 'loginService', 'adminService', function($scope, adminService, loginService){
-
-	loginService.user.then(function(datauser){
-		console.log(datauser)
-	})
-
-	adminService.getParciales(loginService.user.uid)
-
-}])
-
-app.controller('parcialController', ['$scope', 'parcialService', function($scope, parcialService){
+app.controller('parcialController', function($scope, parcialService){
 	$scope.test_preguntas = [
 		{
 			"pregunta": "Que es un computador",
@@ -169,5 +152,5 @@ app.controller('parcialController', ['$scope', 'parcialService', function($scope
 	$scope.guardarParcial = function(){
 		parcialService.guardarParcial($scope.test_preguntas);
 	}
-}])
+})
 
