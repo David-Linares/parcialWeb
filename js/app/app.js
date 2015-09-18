@@ -1,12 +1,15 @@
 var app = angular
                 .module('parcialweb', 
                     ['ngRoute',
-                    'firebase'])
+                    'firebase',
+                    'ngCookies'])
                 .config(function($routeProvider){
                     $routeProvider
                     .when('/', {templateUrl: 'templates/login.html', controller: 'loginController'})
-                    .when('/user/principal', {templateUrl: 'templates/parcial.html', controller: 'parcialController'})
+                    .when('/user', {templateUrl: 'templates/parcial.html', controller: 'parcialController'})
                     .when('/registro', {templateUrl: 'templates/registro.html', controller: 'registroController'})
+                    .when('/admin/parciales', {templateUrl: 'templates/admin.html', controller: 'adminController'})
+                    .when('/admin/parciales/nuevo', {templateUrl: 'templates/nuevoParcial.html', controller: 'adminController'})
                     .when('/superadmin', {templateUrl: 'templates/superadmin.html', controller: 'superAdminController'})
                         .otherwise({redirectTo: '/'});
                 })

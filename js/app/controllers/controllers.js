@@ -31,18 +31,27 @@ app.controller('headerController', ['$scope','firebaseUrl','loginService', '$loc
 	$scope.logueado = loginService.logueado;
 
 	console.log($scope.logueado());
+
+	$scope.logout = function(){
+		loginService.cerrarSesion();
+	}
 }])
 
-app.controller('loginController', ['$scope','firebaseUrl','loginService', '$location', 'logsService', function($scope, firebaseUrl,loginService, $location, logsService){
-	$scope.loginuser = {'email':'super@parcialweb.com', 'password': 'super12345'};
+app.controller('loginController', ['$scope','firebaseUrl','loginService', '$location', 'logsService','$cookies', function($scope, firebaseUrl,loginService, $location, logsService, $cookies){
+	$scope.loginuser = {'email':'', 'password': ''};
 	$scope.login = function(){
 		loginService.login($scope.loginuser).then(function(data){
-			if ($scope.loginuser.email.indexOf('super') != -1) {
-				console.log(data);
-				logsService.setLog(data.uid, 'Inicio de Sesión de SuperAdmin', navigator.userAgent, myip);
-				$location.path('/superadmin');
-				$scope.loginuser = {};
-			};
+			console.log(data)
+			var perfilUser = loginService.getProfile(data.uid);
+			perfilUser.$loaded(function(){
+				console.log(perfilUser);
+				$cookies.put('datasesion', JSON.stringify(data));
+				if (perfilUser.perfil == "estudiante") {
+					$location.path('user');
+				}else{
+					$location.path('admin/parciales');
+				};
+			})
 		},function(error){
 			console.log("error");
 			console.log(error);
@@ -50,7 +59,7 @@ app.controller('loginController', ['$scope','firebaseUrl','loginService', '$loca
 	}
 }])
 
-app.controller('registroController', ['$scope','firebaseUrl','loginService', '$location', 'logsService', 'cursoService', function($scope, firebaseUrl,loginService, $location, logsService, cursoService){
+app.controller('registroController', ['$scope','firebaseUrl','loginService', '$location', 'logsService', 'cursoService', '$cookies', function($scope, firebaseUrl,loginService, $location, logsService, cursoService, $cookies){
 	$scope.registrouser = {
 		'user':{
 			'nombre': '',
@@ -73,13 +82,32 @@ app.controller('registroController', ['$scope','firebaseUrl','loginService', '$l
 	$scope.registro = function(){
 		loginService.registrar($scope.registrouser).then(function(dataLogin){
 			console.log("Datos del Login")
-			console.log(dataLogin)
+			var perfilUser = loginService.getProfile(dataLogin.uid);
+			perfilUser.$loaded(function(){
+				console.log(perfilUser);
+				if (perfilUser.perfil == "estudiante") {
+					$location.path('user');
+				}else{
+					$location.path('admin/parciales');
+				}
+				$cookies.put('datasesion', data);
+			})
 		})
 	}
 }])
 
 app.controller('superAdminController', ['$scope', function($scope){
 	console.log("Hola Super Admin!!");
+}])
+
+app.controller('adminController', ['$scope', 'loginService', 'adminService', function($scope, adminService, loginService){
+
+	loginService.user.then(function(datauser){
+		console.log(datauser)
+	})
+
+	adminService.getParciales(loginService.user.uid)
+
 }])
 
 app.controller('parcialController', ['$scope', 'parcialService', function($scope, parcialService){
