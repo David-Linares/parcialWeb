@@ -43,11 +43,15 @@ app.controller('adminController', function($scope, adminService, SessionService)
 		obj.listadoOpciones.push({});
 	}
 
-	$scope.agregarOpcionesDinamicas = function(obj){
+	$scope.agregarOpcionesListado = function(obj){
 		if (!obj.listadoOpcionesdinamicas) {
 			obj.listadoOpcionesdinamicas = [];
 		};
 		obj.listadoOpcionesdinamicas.push({});
+		if (!obj.listadoOpciones) {
+			obj.listadoOpciones = [];
+		};
+		obj.listadoOpciones.push({});
 	}
 
 	$scope.agregarOpcion = function(obj){

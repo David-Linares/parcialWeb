@@ -40,7 +40,7 @@
 	            	<div class="col-md-6">
 			            <div class="panel panel-success">
 						    <div class="panel-heading">
-						        <h3 class="panel-title">Opciones Estáticas:<i class="mdi-content-add-circle-outline" ng-click="agregarListadoOpciones(pregnuevo)"></i></h3>
+						        <h3 class="panel-title">Opciones Estáticas:<i class="mdi-content-add-circle-outline" ng-click="agregarOpcionesListado(pregnuevo)"></i></h3>
 						    </div>
 						    <div class="panel-body">
 						        <div class="col-md-12" ng-repeat="opcestatica in pregnuevo.listadoOpciones">
@@ -52,23 +52,15 @@
 					<div class="col-md-6">
 			            <div class="panel panel-success">
 						    <div class="panel-heading">
-						        <h3 class="panel-title">Opciones Estáticas:<i class="mdi-content-add-circle-outline" ng-click="agregarListadoOpciones(pregnuevo)"></i></h3>
+						        <h3 class="panel-title">Opciones Listado:<i class="mdi-content-add-circle-outline" ng-click="agregarOpcionesListado(pregnuevo)"></i></h3>
 						    </div>
 						    <div class="panel-body">
-						        <div class="col-md-12" ng-repeat="opcestatica in pregnuevo.listadoOpciones">
-				                	<input type="text" class="form-control" ng-model="opcestatica.texto" id="pregunta{{$index}}" placeholder="Opción Estática">
+						        <div class="col-md-12" ng-repeat="opcdinamica in pregnuevo.listadoOpcionesdinamicas">
+				                	<input type="text" class="form-control" ng-model="opcdinamica.texto" id="pregunta{{$index}}" placeholder="Opción Dinámica">
 					            </div>
 						    </div>
 						</div>
 					</div>
-		            <div class="col-md-2">
-	            		<label class="col-md-12 control-label">Opciones Listado:<i class="mdi-content-add-circle-outline" ng-click="agregarOpcionesDinamicas(pregnuevo)"></i></label>
-		            </div>
-	            	<div class="col-md-10">
-		            	<div class="col-md-12" ng-repeat="opcdinamica in pregnuevo.listadoOpcionesdinamicas">
-		                	<input type="text" class="form-control" ng-model="opcdinamica.texto" id="pregunta{{$index}}" placeholder="Opción Dinámica">
-			            </div>
-		            </div>
 	            </div>
 	            <div ng-switch-when="pregArrastre">
 	            	
