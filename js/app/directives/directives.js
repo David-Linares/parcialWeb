@@ -2,8 +2,11 @@ app.directive('preguntaEmparejar', function(){  //Pregunta con emparejamiento de
 
 	return {
 		restrict: 'E',
-		//scope: {},
-		template: 'templates/respuestas/emparejar.html'
+		scope: {
+			opcionesestaticas:'=',
+			opcionesdinamicas:'='
+		},
+		templateUrl: "templates/respuestas/emparejar.html"
 	}
 
 })
@@ -12,8 +15,8 @@ app.directive('pregMultipleUnicaRpta', function(){ //Pregunta con opción múlti
 
 	return {
 		restrict: 'E',
-		//scope: {},
-		template: 'templates/respuestas/multiple_unica.html'
+		scope: {rptasmultiples:'='},
+		templateUrl: "templates/respuestas/multiple_unica.html"
 	}
 
 })
@@ -22,8 +25,11 @@ app.directive('pregArrastre', function(){ //Pregunta con opción múltiple con �
 
 	return {
 		restrict: 'E',
-		//scope: {},
-		template: 'templates/respuestas/arrastre.html'
+		scope: {
+			titulospaneles: '=',
+			opcionesarrastrables: '='
+		},
+		templateUrl: "templates/respuestas/arrastrar.html"
 	}
 
 })

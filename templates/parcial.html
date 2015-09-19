@@ -6,12 +6,16 @@
 			<div class="question_title col-md-12">
 				<b>{{$index + 1}}.</b> {{pregunta.pregunta}}
 			</div>
+			{{pregunta}}
 			<div class="question_body col-md-12">
-				<label class="label_check" ng-repeat="rpta in pregunta.opciones track by $index">
-	                <input type="radio" ng-model="pregunta.respuesta_user" ng-value="rpta.respuesta">
-	                <span class="circle"></span>
-	                <span class="check"></span>
-	                {{rpta.respuesta}}
+				<div ng-switch="pregunta.tiporpta">
+					<div ng-switch-when="pregMultipleUnicaRpta">
+						<preg-multiple-unica-rpta rptasmultiples="pregunta.rptasmultiples"></preg-multiple-unica-rpta>
+					</div>
+					<div ng-switch-when="preguntaEmparejar">
+						<pregunta-emparejar opcionesestaticas="pregunta.listadoOpciones" opcionesdinamicas="pregunta.listadoOpcionesdinamicas" ></pregunta-emparejar>
+					</div>
+				</div>
 			</div>
 		</div>
 		<input type="submit" value="Enviar Respuestas" class="btn btn-success">

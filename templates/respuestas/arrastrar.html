@@ -1,0 +1,25 @@
+<!-- <div class="col-md-3 well" data-drop="true" ng-model='list1' data-jqyoui-options="optionsList1" jqyoui-droppable="{multiple:true}">
+  	<div class="caption">
+    	<div class="btn btn-info btn-draggable" ng-repeat="item in list1" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</div>
+  	</div>
+</div>
+
+<div ng-repeat="arras in opcionesarrastrables" data-drop="true" ng-model='list5' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list5])'}"  jqyoui-droppable="{index: {{$index}}}">
+	<div  data-drag="{{arras.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!arras.title">
+		{{arras.texto}}
+	</div>
+</div> -->
+
+<!-- <div class="btn btn-info" ng-repeat="arras in opcionesarrastrables track by $index" data-drop="true" ng-model='opcionesarrastrables' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=opcionesarrastrables])'}"  jqyoui-droppable="{index: {{$index}}}">
+    <div class="btn btn-info btn-draggable" data-drag="{{arras.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list5" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!arras.title">{{arras.title}}</div>
+</div>
+
+ -->
+
+
+
+ <div class="thumbnail" data-drop="true" ng-model='list4' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=list4])'}"  jqyoui-droppable="{multiple:true}">
+	<div class="caption">
+		<div class="btn btn-info btn-draggable" ng-repeat="item in list4" ng-show="item.title" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="list4" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.title}}</div>
+	</div>
+</div>

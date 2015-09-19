@@ -1,1 +1,12 @@
-Esta es la de emparejamiento
+<div>
+	<div class="col-md-6">
+		<div ng-repeat="est in opcionesestaticas">
+			{{est.texto}}
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div ng-repeat="est in opcionesestaticas">
+			<select ng-options="dina.texto as dina.texto for dina in opcionesdinamicas" ng-model="rpta2"></select>
+		</div>
+	</div>
+</div>
