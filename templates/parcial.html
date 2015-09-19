@@ -2,7 +2,7 @@
 	<form ng-submit="guardarParcial()">
 		<h1>Parcial #2</h1>
 
-		<div class="question_container" ng-repeat="pregunta in test_preguntas" ng-init="preguntaIndex = $index">
+		<div class="question_container" ng-repeat="pregunta in parcial" ng-init="preguntaIndex = $index">
 			<div class="question_title col-md-12">
 				<b>{{$index + 1}}.</b> {{pregunta.pregunta}}
 			</div>

@@ -1,0 +1,35 @@
+application: parcial-web
+version: 1-1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /
+  static_files: index.html
+  upload: index.html
+
+- url: /css/(.*)
+  static_files: css/\1
+  upload: css/.*
+
+- url: /fonts/(.*)
+  static_files: fonts/\1
+  upload: fonts/.*
+
+- url: /images/(.*)
+  static_files: images/\1
+  upload: images/.*
+
+- url: /js/(.*)
+  static_files: js/\1
+  upload: js/.*
+
+- url: /templates/(.*)
+  static_files: templates/\1
+  upload: templates/.*

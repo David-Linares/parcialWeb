@@ -57,18 +57,20 @@ app.factory('loginService', function(firebaseUrl, $firebaseAuth, $firebase, $loc
 				name: user.user.nombre,
 				email: user.user.email,
 				gravatar: get_gravatar(user.user.email, 40),
-				perfil: (user.user.isEstudiante ? 'estudiante' : 'administrador')
+				perfil: (user.user.isEstudiante ? 'estudiante' : 'administrador'),
+				curso_id: user.curso.codigo
 			};
 			var myid = dataUser.uid;
 			var newprofile = ref.child('profiles').child(myid);
 			if (user.user.isEstudiante) {
 				var registercourse = ref.child('cursos').child(user.estudiante.codigo).child('estudiantes')
 				registercourse.push(myid)
+				profile.curso_id = user.estudiante.codigo
 			}else{
 				var createcourse = ref.child('cursos').child(user.curso.codigo)
 				user.curso.administrador = myid
 				createcourse.set(user.curso);
-				profile.curso_id = user.curso.codigo;
+				profile.curso_id = user.curso.codigo
 			}
 			return newprofile.set(profile);
 		},
@@ -128,6 +130,10 @@ app.factory('adminService', function(firebaseUrl, $firebase, $location, $firebas
 
 		getParciales:function(id_curso){
 			return $firebaseObject(ref.child('evaluaciones').child(id_curso));
+		},
+
+		saveParcial:function(newParcial, id_curso){
+			return ref.child('evaluaciones').child(id_curso).push(angular.fromJson(angular.toJson(newParcial)));
 		}
 
 	}
@@ -135,13 +141,16 @@ app.factory('adminService', function(firebaseUrl, $firebase, $location, $firebas
 	return adminFunctions;
 })
 
-app.factory('parcialService', function(firebaseUrl, $firebase, $location, $firebaseArray){
+app.factory('parcialService', function(firebaseUrl, $firebase, $location, $firebaseObject){
 	var ref = new Firebase(firebaseUrl+'/evaluaciones');
 	var parcialFunctions = {
 
-		guardarParcial:function(parcial){
-			ref.child('parcialPrueba').child('userYo').set(angular.fromJson(angular.toJson(parcial)))
-		}
+		getParciales:function(id_curso){
+			return $firebaseObject(ref.child(id_curso));
+		},
+		getParcial:function(id_curso, id_parcial){
+			return $firebaseObject(ref.child(id_curso).child(id_parcial));
+		},
 	}
 
 	return parcialFunctions;

@@ -40,7 +40,7 @@ app.controller('loginController', function($scope, firebaseUrl,loginService, $lo
 				SessionService.setCookieObject('datasesion', data);
 				SessionService.setCookieObject('profileuser', perfilTemp);
 				if (perfilUser.perfil == "estudiante") {
-					$location.path('user');
+					$location.path('user/parcial/listado');
 				}else{
 					$location.path('admin/parciales');
 				};
@@ -52,7 +52,7 @@ app.controller('loginController', function($scope, firebaseUrl,loginService, $lo
 	}
 })
 
-app.controller('registroController', function($scope, firebaseUrl,loginService, $location, logsService, cursoService, $cookies){
+app.controller('registroController', function($scope, firebaseUrl,loginService, $location, logsService, cursoService, SessionService){
 	$scope.registrouser = {
 		'user':{
 			'nombre': '',
@@ -71,6 +71,7 @@ app.controller('registroController', function($scope, firebaseUrl,loginService, 
 			'password': ''
 		}
 	}
+	var perfilTemp = {}
 
 	$scope.registro = function(){
 		loginService.registrar($scope.registrouser).then(function(dataLogin){
@@ -79,11 +80,14 @@ app.controller('registroController', function($scope, firebaseUrl,loginService, 
 			perfilUser.$loaded(function(){
 				console.log(perfilUser);
 				if (perfilUser.perfil == "estudiante") {
-					$location.path('user');
+					$location.path('user/parcial/listado');
 				}else{
 					$location.path('admin/parciales');
 				}
-				$cookies.put('datasesion', data);
+				$.extend(perfilTemp, perfilUser);
+				delete perfilTemp['$$conf'];
+				SessionService.setCookieObject('datasesion', dataLogin);
+				SessionService.setCookieObject('profileuser', perfilTemp);
 			})
 		})
 	}
@@ -93,64 +97,4 @@ app.controller('superAdminController', function($scope){
 	console.log("Hola Super Admin!!");
 })
 
-app.controller('parcialController', function($scope, parcialService){
-	$scope.test_preguntas = [
-		{
-			"pregunta": "Que es un computador",
-			"respuesta_user": "preg1",
-			"opciones":  [
-							{ "respuesta":"Opc 1","check":false},
-							{ "respuesta":"Opc 2","check":false},
-							{ "respuesta":"Opc 3","check":false},
-							{ "respuesta":"Opc 4","check":false},
-						]
-		},
-		{
-			"pregunta": "Partes de un computador",
-			"respuesta_user": "preg2",
-			"opciones":  [
-							{ "respuesta":"Opc 1","check":false},
-							{ "respuesta":"Opc 2","check":false},
-							{ "respuesta":"Opc 3","check":false},
-							{ "respuesta":"Opc 4","check":false},
-						]
-		},
-		{
-			"pregunta": "Que es Software",
-			"respuesta_user": "preg3",
-			"opciones":  [
-							{ "respuesta":"Opc 1","check":false},
-							{ "respuesta":"Opc 2","check":false},
-							{ "respuesta":"Opc 3","check":false},
-							{ "respuesta":"Opc 4","check":false},
-						]
-		},
-		{
-			"pregunta": "Que es Hardware",
-			"respuesta_user": "preg4",
-			"opciones":  [
-							{ "respuesta":"Opc 1","check":false},
-							{ "respuesta":"Opc 2","check":false},
-							{ "respuesta":"Opc 3","check":false},
-							{ "respuesta":"Opc 4","check":false},
-						]
-		},
-		{
-			"pregunta": "Que es Internet",
-			"respuesta_user": "preg5",
-			"opciones":  [
-							{ "respuesta":"Opc 1","check":false},
-							{ "respuesta":"Opc 2","check":false},
-							{ "respuesta":"Opc 3","check":false},
-							{ "respuesta":"Opc 4","check":false},
-						]
-		},
-	]
-
-	$scope.test_preguntas = shuffle($scope.test_preguntas);
-	console.log($scope.test_preguntas)
-	$scope.guardarParcial = function(){
-		parcialService.guardarParcial($scope.test_preguntas);
-	}
-})
 

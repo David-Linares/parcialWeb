@@ -7,6 +7,7 @@
 	</div>
 	<div class="col-md-3">
 		<a ng-click="agregarPregunta()" class="btn btn-success btn-fab btn-raised mdi-content-add"></a>
+		<a ng-click="guardarParcial()" class="btn btn-danger btn-fab btn-raised mdi-content-send"></a>
 	</div>
 	<div class="col-md-8 col-md-offset-2 well" ng-repeat="pregnuevo in pregNuevoParcial track by $index">
 		<div class="form-horizontal">
@@ -56,14 +57,37 @@
 						    </div>
 						    <div class="panel-body">
 						        <div class="col-md-12" ng-repeat="opcdinamica in pregnuevo.listadoOpcionesdinamicas">
-				                	<input type="text" class="form-control" ng-model="opcdinamica.texto" id="pregunta{{$index}}" placeholder="Opción Dinámica">
+				                	<input type="text" class="form-control col-md-1" ng-model="opcdinamica.rptacorrecta"><input type="text" class="form-control" ng-model="opcdinamica.texto" id="pregunta{{$index}}" placeholder="Opción Dinámica">
 					            </div>
 						    </div>
 						</div>
 					</div>
 	            </div>
 	            <div ng-switch-when="pregArrastre">
-	            	
+	            	<div class="col-md-6">
+			            <div class="panel panel-success">
+						    <div class="panel-heading">
+						        <h3 class="panel-title">Titulos de Los paneles:<i class="mdi-content-add-circle-outline" ng-click="agregarTitulo(pregnuevo)"></i></h3>
+						    </div>
+						    <div class="panel-body">
+						        <div class="col-md-12" ng-repeat="titulo in pregnuevo.titulosPaneles">
+				                	<input type="text" class="form-control" ng-model="titulo.texto" id="pregunta{{$index}}" placeholder="Título Panel">
+					            </div>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-6">
+			            <div class="panel panel-success">
+						    <div class="panel-heading">
+						        <h3 class="panel-title">Listado de Opciones:<i class="mdi-content-add-circle-outline" ng-click="agregarArrastrable(pregnuevo)"></i></h3>
+						    </div>
+						    <div class="panel-body">
+						        <div class="col-md-12" ng-repeat="opcArras in pregnuevo.opcArrastrable">
+				                	<input type="text" class="form-control" ng-model="opcArras.texto" id="pregunta{{$index}}" placeholder="Opción Arrastrable">
+					            </div>
+						    </div>
+						</div>
+					</div>
 	            </div>
 	        </div>
 		</div>

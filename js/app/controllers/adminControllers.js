@@ -12,6 +12,9 @@ app.controller('adminController', function($scope, adminService, SessionService)
 	$scope.pregNuevo = {
 		'listadoOpcionesdinamicas' : []
 	}
+	$scope.pregNuevo = {
+		'opcArrastrable' : []
+	}
 	$scope.tipoRespuestas = [
 		{
 			'id': 1,
@@ -35,14 +38,7 @@ app.controller('adminController', function($scope, adminService, SessionService)
 		console.log($scope.newInstance)
 		$scope.pregNuevoParcial.push($scope.newInstance);
 	}
-
-	$scope.agregarListadoOpciones = function(obj){
-		if (!obj.listadoOpciones) {
-			obj.listadoOpciones = [];
-		};
-		obj.listadoOpciones.push({});
-	}
-
+	
 	$scope.agregarOpcionesListado = function(obj){
 		if (!obj.listadoOpcionesdinamicas) {
 			obj.listadoOpcionesdinamicas = [];
@@ -60,6 +56,27 @@ app.controller('adminController', function($scope, adminService, SessionService)
 			obj.rptasmultiples = [];
 		};
 		obj.rptasmultiples.push({});
+	}
+
+	$scope.agregarTitulo = function(obj){
+		console.log(obj)
+		if (!obj.titulosPaneles) {
+			obj.titulosPaneles = [];
+		};
+		obj.titulosPaneles.push({});
+	}
+
+	$scope.agregarArrastrable = function(obj){
+		console.log(obj)
+		if (!obj.opcArrastrable) {
+			obj.opcArrastrable = [];
+		};
+		obj.opcArrastrable.push({});
+	}
+	$scope.guardarParcial = function(){
+		console.log($scope.pregNuevoParcial);
+		console.log(profileUser.curso_id)
+		adminService.saveParcial($scope.pregNuevoParcial, profileUser.curso_id);
 	}
 
 })
