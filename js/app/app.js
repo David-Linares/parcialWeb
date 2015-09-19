@@ -10,6 +10,7 @@ var app = angular
                     .when('/user', {templateUrl: 'templates/parcial.html', controller: 'parcialController'})
                     .when('/user/parcial/listado', {templateUrl: 'templates/listadoParciales.html', controller: 'parcialController'})
                     .when('/user/parcial/:idParcial', {templateUrl: 'templates/parcial.html', controller: 'parcialController'})
+                    .when('/user/parcial/nota/:idParcial', {templateUrl: 'templates/nota.html', controller: 'notaController'})
                     .when('/registro', {templateUrl: 'templates/registro.html', controller: 'registroController'})
                     .when('/admin/parciales', {templateUrl: 'templates/admin.html', controller: 'adminController'})
                     .when('/admin/parciales/nuevo', {templateUrl: 'templates/nuevoParcial.html', controller: 'adminController'})

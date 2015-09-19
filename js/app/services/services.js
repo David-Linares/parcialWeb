@@ -85,9 +85,9 @@ app.factory('loginService', function(firebaseUrl, $firebaseAuth, $firebase, $loc
 				console.log(data);
 				Auth.createProfile(data, user);
 				var dataUserLog = Auth.login(user.user)
-				dataUserLog.perfil = user.user.isEstudiante ? 'estudiante' : 'administrador';
-				console.log(dataUserLog);
-				return dataUserLog;
+				// dataUserLog.perfil = user.user.isEstudiante ? 'estudiante' : 'administrador';
+				// console.log(dataUserLog);
+				// return dataUserLog;
 			},function(error){
 				console.log("error")
 				console.log(error)
@@ -151,6 +151,13 @@ app.factory('parcialService', function(firebaseUrl, $firebase, $location, $fireb
 		getParcial:function(id_curso, id_parcial){
 			return $firebaseObject(ref.child(id_curso).child(id_parcial));
 		},
+		saveResponse:function(parcial, id_parcial){
+			console.log(parcial);
+			return ref.child('respuestas').child(id_parcial).push(parcial);
+		},
+		getNota:function(idParcial){
+			return ref.child('respuestas').child(id_parcial).child('nota');
+		}
 	}
 
 	return parcialFunctions;

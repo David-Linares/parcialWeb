@@ -15,8 +15,24 @@ app.directive('pregMultipleUnicaRpta', function(){ //Pregunta con opción múlti
 
 	return {
 		restrict: 'E',
-		scope: {rptasmultiples:'='},
-		templateUrl: "templates/respuestas/multiple_unica.html"
+		replace: true,
+		scope: {
+			rptasmultiples:'=',
+			numparcial: '=',
+			ngModel:'='
+		},
+		templateUrl: "templates/respuestas/multiple_unica.html",
+		require: 'ngModel',
+		link: function($scope, elem, attr, ctrl) {
+			$scope.id = attr.ngModel;
+			console.debug(attr.ngModel);
+			console.debug($scope.$parent.$eval(attr.ngModel));
+			var textField = $('input[radio]', elem).
+			attr('ng-model', attr.ngModel).
+			val($scope.$parent.$eval(attr.ngModel));
+
+			$compile(textField)($scope.$parent);
+		}
 	}
 
 })
