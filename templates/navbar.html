@@ -9,10 +9,11 @@
 	</div>
 	<div class="navbar-collapse collapse navbar-responsive-collapse">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="javascript:void(0)">Inicio</a></li>
-            <li><a href="#/user/parcial/listado">Parciales</a></li>
-            <li><a href="#/admin/parciales/nuevo">Nuevo Parcial</a></li>
-            <li><a href="#/admin/parciales/listado">Listado de Parciales</a></li>
+            {{}}
+            <li  ng-show="user.profile.perfil == 'estudiante'"><a href="javascript:void(0)">Inicio</a></li>
+            <li  ng-show="user.profile.perfil == 'estudiante'"><a href="#/user/parcial/listado">Parciales</a></li>
+            <li ng-show="user.profile.perfil == 'administrador'"><a href="#/admin/parciales/nuevo">Nuevo Parcial</a></li>
+            <li ng-show="user.profile.perfil == 'administrador'"><a href="#/admin/parciales/listado">Listado de Parciales</a></li>
             <!--<li class="dropdown">
                 <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                 <ul class="dropdown-menu">

@@ -141,7 +141,7 @@ app.factory('adminService', function(firebaseUrl, $firebase, $location, $firebas
 	return adminFunctions;
 })
 
-app.factory('parcialService', function(firebaseUrl, $firebase, $location, $firebaseObject){
+app.factory('parcialService', function(firebaseUrl, $firebase, $location, $firebaseObject, $firebaseArray){
 	var ref = new Firebase(firebaseUrl+'/evaluaciones');
 	var parcialFunctions = {
 
@@ -151,12 +151,20 @@ app.factory('parcialService', function(firebaseUrl, $firebase, $location, $fireb
 		getParcial:function(id_curso, id_parcial){
 			return $firebaseObject(ref.child(id_curso).child(id_parcial));
 		},
-		saveResponse:function(parcial, id_parcial){
+		saveResponse:function(parcial, id_parcial, id_user){
 			console.log(parcial);
-			return ref.child('respuestas').child(id_parcial).push(parcial);
+			delete parcial['$id'];
+			delete parcial['$$conf'];
+			delete parcial['$priority'];
+			return ref.child('respuestas').child(id_parcial).child(id_user).push(angular.fromJson(angular.toJson(parcial)));
 		},
-		getNota:function(idParcial){
-			return ref.child('respuestas').child(id_parcial).child('nota');
+		getNota:function(id_parcial, id_user){
+			return $firebaseObject(ref.child('respuestas').child(id_parcial));
+		},
+		getParcialEstudiante:function(id_parcial, id_user){
+			console.log(id_parcial)
+			console.log(id_user)
+			return $firebaseArray(ref.child('respuestas').child(id_parcial).child(id_user));
 		}
 	}
 

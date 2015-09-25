@@ -17,11 +17,26 @@ function shuffle(array) {
   return array;
 }
 
-app.controller('parcialController', function($scope, parcialService, SessionService, $routeParams, $location){
+app.controller('notaController', function($scope, parcialService, SessionService, $routeParams, $location){
+
+	var dataUser = SessionService.getCookieObject('datasesion');
 
 	$scope.nota = parcialService.getNota($routeParams.idParcial);
 
-	console.log($scope.nota);
+	var userId = dataUser.uid;
+
+	$scope.usernota = null;
+
+	console.log("hola")
+
+	$scope.nota.$loaded(function(){
+		angular.forEach($scope.nota, function(minota){		
+			console.log(minota)	
+			angular.forEach(minota, function(notauser){		
+				$scope.usernota = notauser;
+			})
+		})
+	})
 
 })
 
@@ -29,29 +44,9 @@ app.controller('parcialController', function($scope, parcialService, SessionServ
 
 	var profileUser = SessionService.getCookieObject('profileuser');
 	var dataUser = SessionService.getCookieObject('datasesion');
-
-	console.log(profileUser);
-	console.log(dataUser);
-
-	var listadoParciales = parcialService.getParciales(profileUser.curso_id);
-
 	$scope.listadoParciales = [];
 
-	listadoParciales.$loaded().then(function(){
-		angular.forEach(listadoParciales, function(value, key) {
-          	$scope.listadoParciales.push(key);
-       	});
-	})
-
-	if ($routeParams.idParcial) {
-
-		$scope.parcial = parcialService.getParcial(profileUser.curso_id, $routeParams.idParcial);
-		console.log($scope.parcial)
-	};
-
-	/*Sección preguntaas de arrastre*/
-	$scope.listadoHardware = [];
-	$scope.listadoSoftware = [];
+	var listadoParciales = parcialService.getParciales(profileUser.curso_id);
 
 	$scope.listadoOpciones = [
 		{'opcion': 'Monitor', 'drag': true, 'rpta': 'hardware'},
@@ -70,13 +65,52 @@ app.controller('parcialController', function($scope, parcialService, SessionServ
 	]
 
 	
+	if ($routeParams.idParcial) {
+		$scope.parcial = parcialService.getParcialEstudiante($routeParams.idParcial, dataUser.uid);
+
+		$scope.parcial.$loaded(function(){
+			if ($scope.parcial.length > 0) {
+				$scope.parcial = $scope.parcial[0];
+				$scope.respondidoxuser = true;
+				$scope.listadoHardware = $scope.parcial.listadoHardware
+				$scope.listadoSoftware = $scope.parcial.listadoSoftware
+				console.log($scope.parcial);
+				$scope.notaUser = $scope.parcial.nota
+				delete $scope.parcial["listadoHardware"]
+				delete $scope.parcial["listadoSoftware"]
+				delete $scope.parcial["nota"]
+				delete $scope.parcial["contestadasok"]
+				console.log($scope.listadoOpciones)
+			}else{
+				$scope.parcial = parcialService.getParcial(profileUser.curso_id, $routeParams.idParcial);
+				$scope.respondidoxuser = false;
+			}
+		})
+	};
+
+
+	listadoParciales.$loaded().then(function(){
+		angular.forEach(listadoParciales, function(value, key) {
+          	$scope.listadoParciales.push(key);
+       	});
+	})
+
+
+	/*Sección preguntaas de arrastre*/
+	$scope.listadoHardware = [];
+	$scope.listadoSoftware = [];
+
+	
+
+	
 
 	$scope.calificarParcial = function(){
-		var nota = 5;
-		var totalPreg = 20;
-		var notaopc = nota / 18;
+		var nota = 5; //Nota Absoluta
+		var totalPreg = 20; //Total preguntas parcial
+		var notaxpunto = nota / totalPreg; //Nota para cada punto
 		var notapar = 1;
-		var notaarrastra = 1 / 13;
+		var notaarrastra = notaxpunto / 13;
+		var notaemparej = notaxpunto / 5;
 		var notaacumulada = 0;
 		var cantok = 0;
 
@@ -98,13 +132,13 @@ app.controller('parcialController', function($scope, parcialService, SessionServ
 			console.log(value)
 			if (value.tiporpta == "pregMultipleUnicaRpta") {
 				if (value.rptauser == value.respuesta_correcta) {
-					notaacumulada += notaopc;
+					notaacumulada += notaxpunto;
 					cantok += 1;
 				};
 			}else{
 				angular.forEach(value.listadoOpciones, function(opcrpta, keyrpta){
 					if (parseInt(opcrpta.rptauser) == (keyrpta + 1)) {
-						notaacumulada += notaarrastra;
+						notaacumulada += notaemparej;
 						cantok += 1;
 					};
 				});
@@ -122,12 +156,12 @@ app.controller('parcialController', function($scope, parcialService, SessionServ
 		console.log(cantok);
 		console.log(notaacumulada);
 
-		$scope.guardarParcial(angular.fromJson(angular.toJson($scope.parcial)));
+		$scope.guardarParcial($scope.parcial);
 
 	}
 
 	$scope.guardarParcial = function(parcial){
-		parcialService.responderParcial(parcial,  $routeParams.idParcial);
+		parcialService.saveResponse(parcial,  $routeParams.idParcial, dataUser.uid);
 		$location.path('/user/parcial/nota/'+ $routeParams.idParcial);
 	}
 })

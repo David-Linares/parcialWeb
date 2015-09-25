@@ -1,8 +1,7 @@
 <div class="col-md-8 col-md-offset-2 well">
 	<form ng-submit="calificarParcial()">
 		<h1>Parcial #2</h1>
-
-		<div class="question_container" ng-repeat="pregunta in parcial track by $index">
+			<div class="question_container" ng-repeat="pregunta in parcial track by $index">
 			<div class="question_title col-md-12">
 				<b>{{$index + 1}}.</b> {{pregunta.pregunta}}
 			</div>
@@ -10,8 +9,9 @@
 				<div ng-switch="pregunta.tiporpta">
 					<div ng-switch-when="pregMultipleUnicaRpta">
 						<div ng-repeat="rpta in pregunta.rptasmultiples">
-							<input type="radio" name="preg{{$parent.$index}}" ng-value="rpta.texto" ng-model="pregunta.rptauser"> {{rpta.texto}}
+							<input type="radio" ng-disabled="respondidoxuser" name="preg{{$parent.$index}}" ng-value="rpta.texto" ng-model="pregunta.rptauser"> {{rpta.texto}}
 						</div>
+						<div class="alert alert-dismissable" ng-show="respondidoxuser" ng-class="{'alert-danger':pregunta.rptauser != pregunta.respuesta_correcta, 'alert-success':pregunta.rptauser == pregunta.respuesta_correcta}"><i ng-class="{'mdi-content-clear':pregunta.rptauser != pregunta.respuesta_correcta, 'mdi-action-done':pregunta.rptauser == pregunta.respuesta_correcta}"></i>La respuesta Correcta es <b> {{pregunta.respuesta_correcta}}</b></div>
 						<!-- <preg-multiple-unica-rpta rptasmultiples="pregunta.rptasmultiples" ng-model="pregunta.rptauser" numparcial="$index"></preg-multiple-unica-rpta> -->
 					</div>
 					<div ng-switch-when="preguntaEmparejar">
@@ -22,8 +22,9 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div ng-repeat="est in pregunta.listadoOpciones">
-									<select ng-options="dina.rptacorrecta as dina.texto for dina in pregunta.listadoOpcionesdinamicas" ng-model="est.rptauser"></select>
+								<div ng-repeat="est in pregunta.listadoOpciones track by $index">
+									<select ng-options="dina.rptacorrecta as dina.texto for dina in pregunta.listadoOpcionesdinamicas" ng-model="est.rptauser" style="width:90%" ng-disabled="respondidoxuser"></select>
+									<i ng-show="respondidoxuser" ng-class="{'mdi-content-clear':est.rptauser != $index + 1, 'mdi-action-done':est.rptauser == $index+1}"></i>
 								</div>
 							</div>
 						</div>
@@ -37,7 +38,7 @@
 				<h3>Software</h3>
 				<div class="col-md-12 well" data-drop="true" ng-model='listadoSoftware' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=listadoSoftware])'}"  jqyoui-droppable="{multiple:true}">
 					<div class="caption">
-					    <div class="btn btn-info btn-draggable" ng-repeat="item in listadoSoftware" ng-show="item.opcion" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="listadoSoftware" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.opcion}}</div>
+					    <div class="btn btn-draggable" ng-class="{'btn-info':!respondidoxuser, 'btn-danger':item.rpta != 'software' && respondidoxuser, 'btn-success':item.rpta == 'software'  && respondidoxuser}" ng-repeat="item in listadoSoftware" ng-show="item.opcion" data-drag="{{item.drag && !respondidoxuser}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="listadoSoftware" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.opcion}}</div>
 					</div>
 				</div>
 			</div>
@@ -45,14 +46,17 @@
 				<h3>Hardware</h3>
 				<div class="col-md-12 well" data-drop="true" ng-model='listadoHardware' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=listadoHardware])'}"  jqyoui-droppable="{multiple:true}">
 					<div class="caption">
-					    <div class="btn btn-info btn-draggable" ng-repeat="item in listadoHardware" ng-show="item.opcion" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="listadoHardware" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.opcion}}</div>
+					    <div class="btn btn-draggable" ng-repeat="item in listadoHardware" ng-class="{'btn-info':!respondidoxuser, 'btn-danger':item.rpta != 'hardware'  && respondidoxuser, 'btn-success':item.rpta == 'hardware'  && respondidoxuser}" ng-show="item.opcion" data-drag="{{item.drag && !respondidoxuser}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="listadoHardware" jqyoui-draggable="{index: {{$index}},animate:true}">{{item.opcion}}</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12" ng-repeat="item in listadoOpciones" data-drop="true" ng-model='listadoOpciones' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=listadoOpciones])'}"  jqyoui-droppable="{index: {{$index}}}">
+			<div class="col-md-12" ng-show="!respondidoxuser" ng-repeat="item in listadoOpciones" data-drop="true" ng-model='listadoOpciones' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=listadoOpciones])'}"  jqyoui-droppable="{index: {{$index}}}">
 				<div class="btn btn-info btn-draggable" data-drag="{{item.drag}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="listadoOpciones" jqyoui-draggable="{index: {{$index}},placeholder:true,animate:true}" ng-hide="!item.opcion">{{item.opcion}}</div>
 			</div>
 		</div>
-		<input type="submit" value="Enviar Respuestas" class="btn btn-success">
+		<div class="col-md-6" ng-show="respondidoxuser">
+			<h3>Tu nota fue: {{notaUser}}</h3>
+		</div>
+		<input type="submit" value="Enviar Respuestas" class="btn btn-success" ng-show="!respondidoxuser">
 	</form>
 </div>
